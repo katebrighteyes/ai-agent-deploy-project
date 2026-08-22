@@ -6,7 +6,7 @@ services:
     image: user01-receipt-backend:latest 
     container_name: user01-backend
     ports:
-      - "8001:8000"  # 외부 8001번 포트를 컨테이너 내부 8000번 포트로 연결
+      - "${BACKEND_PORT}:8000"  # 외부 8001번 포트를 컨테이너 내부 8000번 포트로 연결
     volumes:
       - .:/app       # 개발 편의를 위한 Bind Mount 설정[cite: 1]
     environment:
@@ -26,7 +26,7 @@ services:
     image: user01-receipt-frontend:latest   
     container_name: user01-frontend
     ports:
-      - "8501:8501"  # 외부 8501번 포트를 컨테이너 내부 8501번 포트로 연결[cite: 1]
+      - "${FRONTEND_PORT}:8501"  # 외부 8501번 포트를 컨테이너 내부 8501번 포트로 연결[cite: 1]
     volumes:
       - .:/app       # 개발 편의를 위한 Bind Mount 설정[cite: 1]
     environment:
