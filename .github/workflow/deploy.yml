@@ -7,7 +7,9 @@ on:
 
   workflow_dispatch:
 
-
+permissions:
+  contents: read
+  
 jobs:
 
   # =====================================================
@@ -65,7 +67,7 @@ jobs:
         shell: powershell
 
         run: |
-          ssh -o BatchMode=yes h200 "echo SSH_OK && whoami && hostname"
+          ssh -o BatchMode=yes -o ConnectTimeout=10 h200 "echo SSH_OK && whoami && hostname"
 
 
       # ----------------------------------------------
@@ -75,5 +77,18 @@ jobs:
       - name: Deploy
         shell: powershell
 
+      - name: Deploy Docker containers
+        shell: powershell
+
         run: |
-          ssh -o BatchMode=yes h200 "cd ~/llm/agent-deploy-project && git pull origin main && docker compose up -d --build && docker compose ps"
+          ssh -o BatchMode=yes h200 "rm -rf ~/llm/ai-agent-deploy-project && mkdir -p ~/llm/ai-agent-deploy-project && tar -xf ~/deploy.tar -C ~/llm/ai-agent-deploy-project && cp ~/.h200-deploy/.env ~/llm/ai-agent-deploy-project/.env && rm ~/deploy.tar && cd ~/llm/ai-agent-deploy-project && docker compose up -d --build"
+
+
+      # ---------------------------------------------------
+      # 6. 실행 결과 확인
+      # ---------------------------------------------------
+      - name: Check containers
+        shell: powershell
+
+        run: |
+          ssh -o BatchMode=yes h200 "cd ~/llm/ai-agent-deploy-project && docker compose ps"
