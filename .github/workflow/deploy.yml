@@ -76,4 +76,4 @@ jobs:
         shell: powershell
 
         run: |
-          ssh -o BatchMode=yes h200 "cd ~/agent-deploy-project && git pull origin main && docker compose up -d --build && docker compose ps"
+          ssh -o BatchMode=yes h200 "cd ~/llm/agent-deploy-project && git pull origin main && docker compose up -d --build && docker compose ps"
