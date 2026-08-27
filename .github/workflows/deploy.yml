@@ -91,7 +91,7 @@ jobs:
       - name: Deploy Docker containers
         shell: powershell
         run: |
-          ssh -o BatchMode=yes h200 "rm -rf ~/llm/ai-agent-deploy-project && mkdir -p ~/llm/ai-agent-deploy-project && tar -xf ~/deploy.tar -C ~/llm/ai-agent-deploy-project && cp ~/llm/.h200-deploy/.env ~/llm/ai-agent-deploy-project/.env && rm ~/deploy.tar && cd ~/llm/ai-agent-deploy-project && docker compose up -d --build"
+          ssh -o BatchMode=yes h200 "docker rm -f user01-backend user01-frontend 2>/dev/null; rm -rf ~/llm/ai-agent-deploy-project && mkdir -p ~/llm/ai-agent-deploy-project && tar -xf ~/deploy.tar -C ~/llm/ai-agent-deploy-project && cp ~/llm/.h200-deploy/.env ~/llm/ai-agent-deploy-project/.env && rm ~/deploy.tar && cd ~/llm/ai-agent-deploy-project && docker compose up -d --build"
 
       # ---------------------------------------------------
       # 6. 실행 결과 확인
