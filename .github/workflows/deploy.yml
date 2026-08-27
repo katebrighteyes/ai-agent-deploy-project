@@ -69,6 +69,20 @@ jobs:
         run: |
           ssh -o BatchMode=yes -o ConnectTimeout=10 h200 "echo SSH_OK && whoami && hostname"
 
+      # === 👇 추가해야 할 부분: 코드 체크아웃, 압축 및 전송 👇 ===
+      - name: Checkout repository 
+        uses: actions/checkout@v7
+
+      - name: Compress project files
+        shell: powershell
+        run: |
+          tar -cvf deploy.tar .
+
+      - name: Transfer to H200
+        shell: powershell
+        run: |
+          scp -o BatchMode=yes deploy.tar h200:~/deploy.tar
+      # === 👆 여기까지 추가 👆 ===
 
       # ----------------------------------------------
       # H200 배포
